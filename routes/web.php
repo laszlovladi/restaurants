@@ -19,4 +19,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/restaurant-registration', 'RestaurantRegistrationController@form');
+Route::post('/restaurant-registration', 'RestaurantRegistrationController@register');
+
+Route::get('/restaurants', 'RestaurantController@index');
+Route::get('/restaurants/{id}', 'RestaurantController@show');
+
+
 Route::get('/home', 'HomeController@index')->name('home');
