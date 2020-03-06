@@ -25,5 +25,7 @@ Route::post('/restaurant-registration', 'RestaurantRegistrationController@regist
 Route::get('/restaurants', 'RestaurantController@index');
 Route::get('/restaurants/{id}', 'RestaurantController@show');
 
+Route::post('/reviews/{id}/store', 'ReviewController@store');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
