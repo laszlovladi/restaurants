@@ -1,3 +1,5 @@
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,16 +14,28 @@
       <h2>Leave a review:</h2>
       <form action="{{ action('ReviewController@store', [$rest->id]) }}" method="post">
         @csrf
-        {{-- <input type="hidden" name="user_id" value="{{ Auth::user()->id }}"> --}}
-        {{-- <input type="hidden" name="restaurant_id" value="{{ $rest->id }}"> --}}
         <textarea name="text" id="" cols="60" rows="5"></textarea><br>
         <button type="submit">Submit a review</button>
       </form><br>
       <h2>Reviews:</h2>
       @if($rest->reviews->count())
-        @foreach ($rest->reviews as $review)
-            <strong>{{$review->user->name}} {{$review->created_at}}</strong>
-            <p>{{$review->text}}</p>
+        @foreach ($rest->reviews()->orderBy('created_at', 'desc')->get() as $review)
+            @if($review->created_at == $review->updated_at)
+              <strong>{{$review->user->name}} {{$review->created_at}} </strong>
+            @else
+              <strong>{{$review->user->name}} {{$review->created_at}} (updated {{$review->updated_at}})</strong>
+            @endif
+            <div>
+              <p id="text">{{$review->text}}</p>
+              @if($review->user == \Auth::user())
+                <form class="edit-form" action="{{ action('ReviewController@edit', [$review->id]) }}" method="get">
+                  {{-- @csrf --}}
+                  {{-- <textarea name="edit" id="" cols="60" rows="5" style="display: none">{{$review->text}}</textarea> --}}
+                  {{-- <input type="hidden" name="review_id" value="{{$review->text}}"> --}}
+                  <button type="submit" class="btn-edit">Edit comment</button>
+                </form>
+              @endif
+            </div>
             <hr>
         @endforeach
       @else
@@ -37,4 +51,25 @@
       </div>
     </div>
   @endguest
+
+
+@endsection
+
+@section('script')
+    {{-- <script>
+      btnEdit = document.querySelector('.btn-edit');
+      editForm = document.querySelector('.edit-form');
+      btnEdit.addEventListener('click', ()=>{
+        document.getElementById('text').style.display = 'none';
+        btnEdit.style.display = 'none';
+        te = document.createElement('textarea');
+        btnSubmitEdited = document.createElement('button');
+        console.log("{{$review->text}}");
+        te.innerHTML = "{{$review->text}}";
+        te.cols = '60';
+        te.rows = '5';
+        editForm.appendChild(te);
+        // editForm.attach(te);
+      })
+    </script> --}}
 @endsection

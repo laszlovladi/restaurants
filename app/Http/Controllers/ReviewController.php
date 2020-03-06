@@ -23,4 +23,17 @@ class ReviewController extends Controller
 
         return redirect('/restaurants/'.$rest_id);
     }
+
+    public function edit(Request $request, $id){
+        $review = Review::findOrFail($id);
+        return view('reviews/edit', compact('review'));   //, compact('r')
+    }
+
+    public function update(Request $request, $id){
+        $review = Review::findOrFail($id);
+        $review->text = $request->input('text');
+        $review->save();
+        return redirect('/restaurants/'. $review->restaurant_id);
+    }
+
 }

@@ -25,6 +25,8 @@ Route::post('/restaurant-registration', 'RestaurantRegistrationController@regist
 Route::get('/restaurants', 'RestaurantController@index');
 Route::get('/restaurants/{id}', 'RestaurantController@show');
 
+Route::get('/reviews/{id}/edit', 'ReviewController@edit');
+Route::post('/reviews/{id}/edit', 'ReviewController@update');
 Route::post('/reviews/{id}/store', 'ReviewController@store');
 
 
