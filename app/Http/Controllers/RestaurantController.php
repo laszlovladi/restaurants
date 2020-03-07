@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Restaurant;
+use App\CommentReply;
 
 class RestaurantController extends Controller
 {
@@ -14,7 +15,13 @@ class RestaurantController extends Controller
 
     public function show($id){
         $rest = Restaurant::findOrFail($id);
-        return view('restaurants/show', compact('rest'));
+        $crs = CommentReply::all();
+        // foreach($crs as $cr){
+        //     if($cr->comment_id == $)
+        // }
+        // ->where('comment_id', $rest->review)->get();
+        // return $crs;
+        return view('restaurants/show', compact('rest', 'crs'));  //'cr'
     }
 
 }

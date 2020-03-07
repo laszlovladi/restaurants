@@ -27,12 +27,28 @@
             @endif
             <div>
               <p id="text">{{$review->text}}</p>
+              @foreach($crs as $cr)
+                @if($cr->comment_id == $review->id)
+                  <div style="padding-left: 2rem; font-style: italic">
+                    <strong>{{$rest->user->name}} {{$cr->created_at}} </strong>
+                    <p>{{$cr->text}}</p>
+                  </div>
+                @endif
+              @endforeach
               @if($review->user == \Auth::user())
                 <form class="edit-form" action="{{ action('ReviewController@edit', [$review->id]) }}" method="get">
                   {{-- @csrf --}}
                   {{-- <textarea name="edit" id="" cols="60" rows="5" style="display: none">{{$review->text}}</textarea> --}}
                   {{-- <input type="hidden" name="review_id" value="{{$review->text}}"> --}}
                   <button type="submit" class="btn-edit">Edit comment</button>
+                </form>
+              @endif
+              @if($rest->user == \Auth::user())
+                <form class="reply-form" action="{{ action('CommentReplyController@reply', [$review->id]) }}" method="get">
+                  {{-- @csrf --}}
+                  {{-- <textarea name="edit" id="" cols="60" rows="5" style="display: none">{{$review->text}}</textarea> --}}
+                  {{-- <input type="hidden" name="review_id" value="{{$review->text}}"> --}}
+                  <button type="submit" class="btn-reply">Reply to comment</button>
                 </form>
               @endif
             </div>

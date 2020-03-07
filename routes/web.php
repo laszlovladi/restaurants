@@ -29,5 +29,9 @@ Route::get('/reviews/{id}/edit', 'ReviewController@edit');
 Route::post('/reviews/{id}/edit', 'ReviewController@update');
 Route::post('/reviews/{id}/store', 'ReviewController@store');
 
+Route::get('/comment-reply/{id}/reply', 'CommentReplyController@reply');
+Route::post('/comment-reply/{id}/store', 'CommentReplyController@store');
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
